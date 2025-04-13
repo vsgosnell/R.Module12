@@ -1,0 +1,221 @@
+---
+title: "Review Dashboard"
+author: "Veronica Gosnell"
+date: "2025-04-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r include = FALSE}
+library(viridis)
+library(ggplot2)
+library(marmap)
+```
+
+# Intro {.sidebar}
+
+This dashboard covers several topics:
+
+* The marmap package
+* The viridis package
+* Miscellaneous material
+
+# Marmap Package
+
+## Column 1
+
+### Florida
+
+
+<!-- data(florida) -->
+<!-- autoplot(florida) -->
+
+
+#errors with autoplot
+#use this code instead:
+
+```{r}
+library(marmap)
+library(ggplot2)
+library(viridis)
+
+# Load the bathymetry data
+data(florida)
+
+# Convert bathy object to data frame
+florida_df <- as.xyz(florida)  # gives a data.frame with columns: x, y, z
+
+# If as.xyz() returned columns Var1, Var2, value:
+colnames(florida_df) <- c("x", "y", "z")
+
+# Plot using ggplot2
+ggplot(florida_df, aes(x = x, y = y, fill = z)) +
+  geom_tile() +
+  scale_fill_viridis(name = "Depth (m)", option = "C") +
+  coord_fixed() +
+  theme_minimal() +
+  labs(
+    title = "Bathymetry of Florida Region",
+    x = "Longitude", y = "Latitude"
+  )
+
+
+```
+
+
+
+
+The [marmap](https://cran.r-project.org/web/packages/marmap/index.html) package provides tools and data for visualizing the ocean floor. Here is an example contour plot of marmap's `florida` dataset.
+
+## Column 2
+
+### Hawaii
+
+
+<!-- data(hawaii) -->
+<!-- autoplot(hawaii) -->
+
+
+#^ this code isn't working with autoplot
+#use this code instead:
+
+```{r}
+library(marmap)
+library(ggplot2)
+library(viridis)
+
+# Load the bathymetry data
+data(hawaii)
+
+# Convert bathy object to data frame
+hawaii_df <- as.xyz(hawaii)
+
+#rename columns manually
+colnames(hawaii_df) <- c("x", "y", "z")
+
+# Fix column names if needed
+colnames(hawaii_df) <- c("x", "y", "z")  # x = long, y = lat, z = depth
+
+# Plot using ggplot2
+ggplot(hawaii_df, aes(x = x, y = y, fill = z)) +
+  geom_tile() +
+  scale_fill_viridis(name = "Depth (m)", option = "C") +
+  coord_fixed() +
+  theme_minimal() +
+  labs(
+    title = "Bathymetry around Hawaii",
+    x = "Longitude", y = "Latitude"
+  )
+
+```
+
+
+
+### Alaska
+
+
+<!-- data(aleutians) -->
+<!-- autoplot(aleutians) -->
+
+
+#autoplot doesn't like me
+#use this code instead:
+```{r}
+# Load the bathymetry data for Aleutians
+data(aleutians)
+
+# Convert bathy object to data frame
+aleutians_df <- as.xyz(aleutians)
+
+# Check column names to see if they need adjusting
+head(aleutians_df)
+str(aleutians_df)
+
+# If column names are something like Var1, Var2, and value, rename them
+colnames(aleutians_df) <- c("x", "y", "z")
+
+# Plot using ggplot2
+ggplot(aleutians_df, aes(x = x, y = y, fill = z)) +
+  geom_tile() +
+  scale_fill_viridis(name = "Depth (m)", option = "C") +
+  coord_fixed() +
+  theme_minimal() +
+  labs(
+    title = "Bathymetry of Aleutian Islands",
+    x = "Longitude", y = "Latitude"
+  )
+
+```
+
+
+# Viridis Package
+
+## Column 1
+
+### Viridis colors
+
+```{r fig.cap="Maunga Whao, Auckland, NZ"}
+image(volcano, col = viridis(200))
+```
+
+### Magma colors
+
+```{r fig.cap="Maunga Whao, Auckland, NZ"}
+image(volcano, col = viridis(200, option = "A"))
+```
+
+## Column 2
+
+### Inferno colors
+
+```{r fig.cap="Maunga Whao, Auckland, NZ"}
+image(volcano, col = viridis(200, option = "B"))
+```
+
+### Plasma colors
+
+```{r fig.cap="Maunga Whao, Auckland, NZ"}
+image(volcano, col = viridis(200, option = "C"))
+```
+
+# Miscellaneous
+
+## Column 1 {data-width=300}
+
+### Bash support
+
+```{bash}
+ls *.Rmd
+```
+
+***
+
+This chunk executes bash code.
+
+### Python support
+
+```{python}
+x = 'hello, python world!'
+print(x.split(' '))
+```
+
+***
+
+This chunk executes python code.
+
+## Column 2 {data-width=700}
+
+### Tables with Kable 
+
+```{r echo = FALSE, results = 'asis'}
+library(knitr)
+kable(mtcars[1:5, ], caption = "A knitr kable.")
+```
+
+***
+
+It is very easy to make tables with knitr's `kable` function.

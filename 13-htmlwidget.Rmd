@@ -1,0 +1,27 @@
+---
+title: "Interactive Map"
+author: "Veronica Gosnell"
+date: "2025-04-13"
+output: html_document
+---
+
+Htmlwidgets are R functions that return JavaScript visualizations. The document below uses a leaflet htmlwidget to create an interactive map. 
+
+Htmlwidgets create client side interactions. Since htmlwidgets are exported in JavaScript, any common web browser can execute the interactions.
+
+
+```{r include = FALSE}
+library(leaflet)
+library(dplyr)
+```
+
+Use the leaflet map below to explore the actual Maunga Whau volcano in Auckland, NZ. 
+
+```{r}
+leaflet() %>%
+  setView(lng=174.764, lat=-36.877, zoom = 16) %>% 
+  addTiles() %>%
+  addMarkers(lng=174.764, lat=-36.877, popup="Maunga Whau") 
+```
+
+

@@ -1,0 +1,52 @@
+---
+title: "Shiny Web App"
+author: "Veronica Gosnell"
+date: "2025-04-13"
+output: html_document
+runtime: shiny
+---
+
+The Shiny package builds interactive web apps powered by R. To call Shiny code from an R Markdown document, add runtime: shiny to the header
+
+Use Shiny to run any R code that you like in response to user actions. Since web browsers cannot execute R code, Shiny interactions occur on the server side.
+
+
+Htmlwidgets and Shiny elements rely on HTML and JavaScript. They will work in any R Markdown format that is viewed in a web browser, such as html documents, notebooks and websites, as well as dashboards and slide presentations.
+
+If you include an interactive element in a static output format, like a PDF, R Markdown will embed a screenshot of the element.
+
+
+```{r include = FALSE}
+library(shiny)
+library(viridis)
+```
+
+You've seen the Maunga Whau volcano displayed in a variety of colors. Now pick your favorite.
+
+```{r echo = FALSE}
+selectInput("colors", "Choose a color palette", 
+  choices = c("viridis", "magma", "inferno", "plasma", "heat",
+  "terrain", "topographic", "cyan/magenta", "rainbow"))
+
+colorPalette <- reactive({
+  switch(input$colors, 
+         "viridis" = viridis(200),
+         "magma" = viridis(200, option = "A"),
+         "inferno" = viridis(200, option = "B"),
+         "plasma" = viridis(200, option = "C"),
+         "heat" = heat.colors(200),
+         "terrain" = terrain.colors(200),
+         "topographic" = topo.colors(200),
+         "cyan/magenta" = cm.colors(200),
+         "rainbow" = rainbow(200))
+})
+
+renderPlot({
+  image(volcano, col = colorPalette())
+})
+```
+
+
+
+
+
